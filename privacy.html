@@ -8,8 +8,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: #0d0d17;
-      color: #ffffff;
+      background-color: #f5f5f7;
+      color: #1a1a1a;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       min-height: 100vh;
       line-height: 1.7;
@@ -17,8 +17,9 @@
 
     /* Header */
     .hero {
-      background: radial-gradient(ellipse at 50% 0%, rgba(46, 128, 255, 0.15) 0%, transparent 70%);
-      padding: 64px 24px 40px;
+      background: #ffffff;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 56px 24px 36px;
       text-align: center;
     }
 
@@ -26,16 +27,13 @@
       font-size: 2rem;
       font-weight: 700;
       letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #1a1a1a;
     }
 
     .hero p {
-      color: rgba(255,255,255,0.35);
+      color: #888;
       font-size: 0.85rem;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .back-link {
@@ -45,48 +43,48 @@
       color: #2e80ff;
       text-decoration: none;
       font-size: 0.9rem;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
-    .back-link:hover { opacity: 0.8; }
+    .back-link:hover { opacity: 0.75; }
 
     /* Content */
     .container {
       max-width: 680px;
       margin: 0 auto;
-      padding: 0 24px 80px;
+      padding: 32px 24px 80px;
     }
 
     .section {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 28px;
-      margin-bottom: 16px;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 12px;
     }
 
     .section h2 {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 12px;
+      color: #aaa;
+      margin-bottom: 10px;
     }
 
     .section p, .section li {
       font-size: 0.95rem;
-      color: rgba(255,255,255,0.65);
+      color: #444;
     }
 
     .section ul {
       list-style: none;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .section ul li {
       padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
       display: flex;
       gap: 10px;
     }
@@ -107,11 +105,11 @@
 
     .section a:hover { text-decoration: underline; }
 
-    strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+    strong { color: #1a1a1a; font-weight: 600; }
 
     footer {
       text-align: center;
-      color: rgba(255,255,255,0.2);
+      color: #bbb;
       font-size: 0.8rem;
       padding-bottom: 40px;
     }
