@@ -23,16 +23,20 @@
     }
 
     .logo {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      border: 1px solid rgba(46, 128, 255, 0.3);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: inline-block;
       margin-bottom: 20px;
-      font-size: 32px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .hero h1 {
@@ -164,7 +168,7 @@
 <body>
 
   <div class="hero">
-    <div class="logo">🏋️</div>
+    <div class="logo"><img src="logo.png" alt="Metalion" /></div>
     <h1>Metalion Support</h1>
     <p>Fitness coaching &amp; workout tracking</p>
   </div>
