@@ -83,10 +83,9 @@
     }
 
     .section ul li {
-      padding: 8px 0;
+      padding: 10px 0 10px 20px;
       border-bottom: 1px solid rgba(0,0,0,0.06);
-      display: flex;
-      gap: 10px;
+      position: relative;
     }
 
     .section ul li:last-child { border-bottom: none; }
@@ -95,7 +94,9 @@
       content: "›";
       color: #2e80ff;
       font-size: 1rem;
-      flex-shrink: 0;
+      position: absolute;
+      left: 0;
+      top: 10px;
     }
 
     .section a {
