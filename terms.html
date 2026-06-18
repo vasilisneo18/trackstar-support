@@ -5,99 +5,229 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terms of Use – Trackstar</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0d0d12;
-      color: #e0e0e8;
-      line-height: 1.7;
-      padding: 48px 24px 80px;
+      background-color: #0d0d17;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
     }
-    .container { max-width: 720px; margin: 0 auto; }
-    h1 { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-    .meta { font-size: 0.875rem; color: #666; margin-bottom: 40px; }
-    h2 { font-size: 1.1rem; font-weight: 600; color: #fff; margin: 36px 0 10px; }
-    p, li { font-size: 0.95rem; color: #a0a0b8; }
-    ul { padding-left: 20px; margin-top: 8px; }
-    li { margin-bottom: 6px; }
-    a { color: #5b8ef0; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+
+    .hero {
+      background: radial-gradient(ellipse at 50% 0%, rgba(46, 128, 255, 0.18) 0%, transparent 70%);
+      padding: 72px 24px 48px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.875rem;
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+    .back-link:hover { color: #fff; }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+
+    .card h2 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 14px;
+    }
+
+    .card p, .card li {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .card li { margin-bottom: 6px; }
+
+    .card p + p { margin-top: 10px; }
+
     .notice {
-      background: rgba(255,255,255,0.05);
-      border-left: 3px solid #5b8ef0;
+      background: rgba(46, 128, 255, 0.08);
+      border: 1px solid rgba(46, 128, 255, 0.2);
+      border-radius: 12px;
       padding: 14px 18px;
-      border-radius: 6px;
-      margin: 16px 0;
       font-size: 0.9rem;
-      color: #c0c0d8;
+      color: rgba(255,255,255,0.6);
+      margin-top: 10px;
+    }
+
+    a { color: #2e80ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+      padding-bottom: 40px;
     }
   </style>
 </head>
 <body>
-<div class="container">
 
-  <h1>Terms of Use</h1>
-  <p class="meta">Last updated: June 2026 &nbsp;·&nbsp; Trackstar</p>
-
-  <p>Welcome to Trackstar. By downloading or using the Trackstar app ("App"), you agree to be bound by these Terms of Use ("Terms"). Please read them carefully before using the App.</p>
-
-  <h2>1. Acceptance of Terms</h2>
-  <p>By accessing or using the App you confirm that you are at least 16 years old and that you accept these Terms in full. If you do not agree, do not use the App.</p>
-
-  <h2>2. Description of Service</h2>
-  <p>Trackstar is a personal fitness tracking application that allows users to log workouts, track nutrition, follow training plans, and optionally connect with a coach. Features vary by subscription tier.</p>
-
-  <h2>3. User Accounts</h2>
-  <p>You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account. Notify us immediately at <a href="mailto:support@trackstar.fitness">support@trackstar.fitness</a> if you suspect unauthorized access.</p>
-
-  <h2>4. Subscriptions & Payments</h2>
-  <div class="notice">
-    Trackstar offers auto-renewing subscriptions (Bronze, Silver, and Gold tiers). Payment is charged to your Apple ID account at confirmation of purchase. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current period. You can manage and cancel subscriptions in your App Store account settings at any time. No refunds are provided for the unused portion of a subscription period.
-  </div>
-  <p>Free trial periods, where offered, convert automatically to a paid subscription at the end of the trial unless cancelled beforehand.</p>
-
-  <h2>5. Health & Fitness Disclaimer</h2>
-  <div class="notice">
-    The App is intended for general fitness and informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional before starting any exercise or nutrition programme, particularly if you have a pre-existing medical condition. Trackstar accepts no liability for injury, illness, or other harm arising from use of the App.
+  <div class="hero">
+    <div class="logo"><img src="logo.png" alt="Trackstar" /></div>
+    <h1>Terms of Use</h1>
+    <p>Last updated: June 2026</p>
   </div>
 
-  <h2>6. Coach Features</h2>
-  <p>Coach accounts allow users to manage athletes through the App. Coaches are solely responsible for the advice and programmes they provide to their athletes. Trackstar does not vet, endorse, or guarantee the qualifications of any coach using the platform.</p>
+  <div class="container">
 
-  <h2>7. Prohibited Uses</h2>
-  <p>You agree not to:</p>
-  <ul>
-    <li>Use the App for any unlawful purpose</li>
-    <li>Attempt to reverse engineer, decompile, or extract the App's source code</li>
-    <li>Transmit harmful, offensive, or misleading content through any social or coach features</li>
-    <li>Use automated tools to access or scrape data from the App</li>
-    <li>Share your account credentials with others</li>
-  </ul>
+    <a class="back-link" href="index.html">‹ Back to Support</a>
 
-  <h2>8. Intellectual Property</h2>
-  <p>All content, design, code, and trademarks in the App are the property of Trackstar or its licensors. Nothing in these Terms grants you any right to use the Trackstar name, logo, or branding without prior written consent.</p>
+    <div class="card">
+      <h2>1 · Acceptance</h2>
+      <p>By downloading or using the Trackstar app ("App") you confirm that you are at least 16 years old and accept these Terms in full. If you do not agree, do not use the App.</p>
+    </div>
 
-  <h2>9. Data & Privacy</h2>
-  <p>Your use of the App is also governed by our <a href="https://trackstar.fitness/privacy">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
+    <div class="card">
+      <h2>2 · Description of Service</h2>
+      <p>Trackstar is a personal fitness tracking application that allows users to log workouts, track nutrition, follow training plans, and optionally connect with a coach. Features vary by subscription tier.</p>
+    </div>
 
-  <h2>10. Account Deletion</h2>
-  <p>You may delete your account at any time from within the App (Settings → Close Account). Upon deletion, your personal data and workout history will be permanently removed from our servers. Active subscriptions must be cancelled separately through your App Store account settings.</p>
+    <div class="card">
+      <h2>3 · User Accounts</h2>
+      <p>You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account. Notify us immediately at <a href="mailto:support@trackstar.fitness">support@trackstar.fitness</a> if you suspect unauthorized access.</p>
+    </div>
 
-  <h2>11. Limitation of Liability</h2>
-  <p>To the fullest extent permitted by law, Trackstar and its founders, employees, and partners shall not be liable for any indirect, incidental, special, or consequential damages arising out of your use of or inability to use the App, even if advised of the possibility of such damages.</p>
+    <div class="card">
+      <h2>4 · Subscriptions &amp; Payments</h2>
+      <div class="notice">
+        Trackstar offers auto-renewing subscriptions (Bronze, Silver, and Gold tiers). Payment is charged to your Apple ID account at confirmation of purchase. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current period. You can manage and cancel subscriptions in your App Store account settings at any time. No refunds are provided for the unused portion of a subscription period.
+      </div>
+      <p style="margin-top:12px;">Free trial periods, where offered, convert automatically to a paid subscription at the end of the trial unless cancelled beforehand.</p>
+    </div>
 
-  <h2>12. Disclaimer of Warranties</h2>
-  <p>The App is provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to fitness for a particular purpose or non-infringement.</p>
+    <div class="card">
+      <h2>5 · Health &amp; Fitness Disclaimer</h2>
+      <div class="notice">
+        The App is intended for general fitness and informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional before starting any exercise or nutrition programme, particularly if you have a pre-existing medical condition. Trackstar accepts no liability for injury, illness, or other harm arising from use of the App.
+      </div>
+    </div>
 
-  <h2>13. Changes to These Terms</h2>
-  <p>We may update these Terms from time to time. We will notify you of material changes via the App or by email. Continued use of the App after changes constitutes acceptance of the revised Terms.</p>
+    <div class="card">
+      <h2>6 · Coach Features</h2>
+      <p>Coach accounts allow users to manage athletes through the App. Coaches are solely responsible for the advice and programmes they provide to their athletes. Trackstar does not vet, endorse, or guarantee the qualifications of any coach using the platform.</p>
+    </div>
 
-  <h2>14. Governing Law</h2>
-  <p>These Terms are governed by the laws of the Republic of Cyprus, without regard to its conflict of law provisions.</p>
+    <div class="card">
+      <h2>7 · Prohibited Uses</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Use the App for any unlawful purpose</li>
+        <li>Attempt to reverse engineer or decompile the App</li>
+        <li>Transmit harmful or misleading content through coach or social features</li>
+        <li>Use automated tools to scrape data from the App</li>
+        <li>Share your account credentials with others</li>
+      </ul>
+    </div>
 
-  <h2>15. Contact</h2>
-  <p>If you have any questions about these Terms, please contact us at <a href="mailto:support@trackstar.fitness">support@trackstar.fitness</a>.</p>
+    <div class="card">
+      <h2>8 · Intellectual Property</h2>
+      <p>All content, design, code, and trademarks in the App are the property of Trackstar or its licensors. Nothing in these Terms grants you any right to use the Trackstar name, logo, or branding without prior written consent.</p>
+    </div>
 
-</div>
+    <div class="card">
+      <h2>9 · Data &amp; Privacy</h2>
+      <p>Your use of the App is also governed by our <a href="privacy.html">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
+    </div>
+
+    <div class="card">
+      <h2>10 · Account Deletion</h2>
+      <p>You may delete your account at any time from within the App (Settings → Close Account). Upon deletion, your personal data and workout history will be permanently removed from our servers. Active subscriptions must be cancelled separately through your App Store account settings.</p>
+    </div>
+
+    <div class="card">
+      <h2>11 · Limitation of Liability</h2>
+      <p>To the fullest extent permitted by law, Trackstar and its founders, employees, and partners shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of or inability to use the App.</p>
+    </div>
+
+    <div class="card">
+      <h2>12 · Disclaimer of Warranties</h2>
+      <p>The App is provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to fitness for a particular purpose or non-infringement.</p>
+    </div>
+
+    <div class="card">
+      <h2>13 · Changes to These Terms</h2>
+      <p>We may update these Terms from time to time. We will notify you of material changes via the App or by email. Continued use of the App after changes constitutes acceptance of the revised Terms.</p>
+    </div>
+
+    <div class="card">
+      <h2>14 · Governing Law</h2>
+      <p>These Terms are governed by the laws of the Republic of Cyprus, without regard to its conflict of law provisions.</p>
+    </div>
+
+    <div class="card">
+      <h2>15 · Contact</h2>
+      <p>Questions about these Terms? Reach us at <a href="mailto:support@trackstar.fitness">support@trackstar.fitness</a>.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Trackstar. All rights reserved.
+  </footer>
+
 </body>
 </html>
