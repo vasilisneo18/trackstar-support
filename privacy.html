@@ -3,115 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trackstar — Privacy Policy</title>
+  <title>Privacy Policy – Trackstar</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: #f5f5f7;
-      color: #1a1a1a;
+      background-color: #0d0d17;
+      color: #ffffff;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       min-height: 100vh;
-      line-height: 1.7;
+      line-height: 1.6;
     }
 
-    /* Header */
     .hero {
-      background: #ffffff;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      padding: 56px 24px 36px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(46, 128, 255, 0.18) 0%, transparent 70%);
+      padding: 72px 24px 48px;
       text-align: center;
     }
 
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .hero h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       letter-spacing: -0.5px;
-      color: #1a1a1a;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero p {
-      color: #888;
-      font-size: 0.85rem;
-      margin-top: 6px;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
     }
 
     .back-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: #2e80ff;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.875rem;
       text-decoration: none;
-      font-size: 0.9rem;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
+    }
+    .back-link:hover { color: #fff; }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 16px;
     }
 
-    .back-link:hover { opacity: 0.75; }
-
-    /* Content */
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 32px 24px 80px;
-    }
-
-    .section {
-      background: #ffffff;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 16px;
-      padding: 24px 28px;
-      margin-bottom: 12px;
-    }
-
-    .section h2 {
-      font-size: 0.72rem;
+    .card h2 {
+      font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #aaa;
-      margin-bottom: 10px;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 14px;
     }
 
-    .section p, .section li {
+    .card p, .card li {
       font-size: 0.95rem;
-      color: #444;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
     }
 
-    .section ul {
+    .card ul {
       list-style: none;
       margin-top: 6px;
     }
 
-    .section ul li {
-      padding: 10px 0 10px 20px;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+    .card ul li {
+      padding: 12px 0 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
       position: relative;
     }
 
-    .section ul li:last-child { border-bottom: none; }
+    .card ul li:last-child { border-bottom: none; }
 
-    .section ul li::before {
+    .card ul li::before {
       content: "›";
       color: #2e80ff;
       font-size: 1rem;
       position: absolute;
       left: 0;
-      top: 10px;
+      top: 12px;
     }
 
-    .section a {
-      color: #2e80ff;
-      text-decoration: none;
+    strong {
+      color: rgba(255,255,255,0.85);
+      font-weight: 600;
+      display: block;
     }
 
-    .section a:hover { text-decoration: underline; }
+    .card ul li span {
+      display: block;
+      margin-top: 2px;
+    }
 
-    strong { color: #1a1a1a; font-weight: 600; display: block; }
-    .section ul li span { display: block; margin-top: 2px; }
+    a { color: #2e80ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
     footer {
       text-align: center;
-      color: #bbb;
+      color: rgba(255,255,255,0.2);
       font-size: 0.8rem;
       padding-bottom: 40px;
     }
@@ -120,28 +141,26 @@
 <body>
 
   <div class="hero">
-    <div style="width:64px;height:64px;border-radius:16px;overflow:hidden;display:inline-block;margin-bottom:16px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-      <img src="logo.png" alt="Trackstar" style="width:100%;height:100%;object-fit:cover;display:block;" />
-    </div>
+    <div class="logo"><img src="logo.png" alt="Trackstar" /></div>
     <h1>Privacy Policy</h1>
     <p>Last updated: June 2026</p>
   </div>
 
   <div class="container">
 
-    <a class="back-link" href="index.html">&#8592; Back to Support</a>
+    <a class="back-link" href="index.html">‹ Back to Support</a>
 
-    <div class="section">
+    <div class="card">
       <h2>Information We Collect</h2>
       <p>We collect information you provide when you register: name, email address, age, height, weight, fitness goals, and training preferences. We also collect workout session data you log within the app.</p>
     </div>
 
-    <div class="section">
+    <div class="card">
       <h2>How We Use Your Information</h2>
       <p>Your data is used solely to provide the Trackstar service — syncing your workouts, generating personalised plans, and enabling coach-athlete features. We do not sell your personal data.</p>
     </div>
 
-    <div class="section">
+    <div class="card">
       <h2>Third-Party Services</h2>
       <ul>
         <li>
@@ -159,27 +178,27 @@
       </ul>
     </div>
 
-    <div class="section">
+    <div class="card">
       <h2>Data Storage</h2>
       <p>Your data is stored securely on our servers hosted on Railway (cloud infrastructure). Workout data is also cached locally on your device.</p>
     </div>
 
-    <div class="section">
-      <h2>Data Retention</h2>
-      <p>We retain your data for as long as your account is active. You may request deletion of your account and all associated data by contacting us.</p>
+    <div class="card">
+      <h2>Data Retention &amp; Deletion</h2>
+      <p>We retain your data for as long as your account is active. You may delete your account and all associated data at any time directly from the app (Settings → Close Account). Deletion is permanent and cannot be undone.</p>
     </div>
 
-    <div class="section">
+    <div class="card">
       <h2>Children's Privacy</h2>
       <p>Trackstar is not intended for children under 13. We do not knowingly collect data from children.</p>
     </div>
 
-    <div class="section">
+    <div class="card">
       <h2>Your Rights</h2>
-      <p>You may request access to, correction of, or deletion of your personal data at any time by emailing us.</p>
+      <p>You may request access to, correction of, or deletion of your personal data at any time by emailing us or using the in-app account deletion feature.</p>
     </div>
 
-    <div class="section">
+    <div class="card">
       <h2>Contact</h2>
       <p>Email: <a href="mailto:support@trackstar.fitness">support@trackstar.fitness</a></p>
     </div>
