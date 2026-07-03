@@ -89,7 +89,6 @@
       border: 1px solid rgba(255,255,255,0.12);
       color: #ffffff;
       margin-top: 12px;
-      display: none;
     }
 
     .fallback {
@@ -97,7 +96,6 @@
       text-align: center;
       color: rgba(255,255,255,0.35);
       font-size: 0.85rem;
-      display: none;
     }
 
     footer {
@@ -118,8 +116,8 @@
 
   <div class="container">
     <a class="btn" id="open-btn" href="#">Open Trackstar</a>
-    <a class="btn-secondary" id="appstore-btn" href="https://apps.apple.com/app/id6775599537">Download on the App Store</a>
-    <p class="fallback" id="fallback-text">Don't have Trackstar installed yet? Get it above, then ask your coach to resend this invite.</p>
+    <a class="btn-secondary" href="https://apps.apple.com/app/id6775599537">Download on the App Store</a>
+    <p class="fallback">Don't have Trackstar installed yet? Get it above, then ask your coach to resend this invite.</p>
   </div>
 
   <footer>
@@ -140,15 +138,10 @@
       var deepLink = 'trackstar://invite/' + encodeURIComponent(token) +
         (coachName ? '?coachName=' + encodeURIComponent(coachName) : '');
       document.getElementById('open-btn').href = deepLink;
-      // Attempt an automatic redirect; if the app isn't installed this silently no-ops
-      // and the visitor is left on this page. After a short delay, reveal the App Store
-      // button + fallback text — if the redirect had worked, the visitor would already
-      // have left this page by then.
-      window.location.href = deepLink;
-      setTimeout(function () {
-        document.getElementById('appstore-btn').style.display = 'block';
-        document.getElementById('fallback-text').style.display = 'block';
-      }, 1800);
+      // No automatic redirect on load — in-app browsers (Messenger, Instagram, etc.)
+      // often fail the whole page load if JS tries to navigate to a custom URL scheme
+      // immediately. Only navigate on an explicit tap, which every browser handles
+      // reliably since it's a real user gesture.
     } else {
       document.getElementById('heading').textContent = 'Invalid invite link';
       document.getElementById('subtext').textContent = 'This invite link is missing its token.';
