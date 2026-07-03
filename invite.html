@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trackstar — Coach Invite</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #0d0d17;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .hero {
+      background: radial-gradient(ellipse at 50% 0%, rgba(46, 128, 255, 0.18) 0%, transparent 70%);
+      padding: 72px 24px 48px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.5);
+      font-size: 1rem;
+      margin-top: 12px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .fallback {
+      margin-top: 28px;
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.85rem;
+    }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+      padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="logo"><img src="logo.png" alt="Trackstar" /></div>
+    <h1 id="heading">You're invited to Trackstar</h1>
+    <p id="subtext">Tap below to open the invite in the app.</p>
+  </div>
+
+  <div class="container">
+    <a class="btn" id="open-btn" href="#">Open Trackstar</a>
+    <p class="fallback">Don't have Trackstar installed yet? Ask your coach to resend this invite once you've downloaded the app.</p>
+  </div>
+
+  <footer>
+    &copy; 2026 Trackstar. All rights reserved.
+  </footer>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var token = params.get('token');
+    var coachName = params.get('coachName');
+
+    if (coachName) {
+      document.getElementById('heading').textContent = coachName + ' has invited you';
+      document.getElementById('subtext').textContent = coachName + ' wants you to join their team on Trackstar.';
+    }
+
+    if (token) {
+      var deepLink = 'trackstar://invite/' + encodeURIComponent(token) +
+        (coachName ? '?coachName=' + encodeURIComponent(coachName) : '');
+      document.getElementById('open-btn').href = deepLink;
+      // Attempt an automatic redirect; if the app isn't installed this silently no-ops
+      // and the visitor is left on this page with the manual button + fallback message.
+      window.location.href = deepLink;
+    } else {
+      document.getElementById('heading').textContent = 'Invalid invite link';
+      document.getElementById('subtext').textContent = 'This invite link is missing its token.';
+      document.getElementById('open-btn').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
