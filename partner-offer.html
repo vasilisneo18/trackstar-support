@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trackstar — Partner Offer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #0d0d17;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .hero {
+      background: radial-gradient(ellipse at 50% 0%, rgba(255, 191, 46, 0.18) 0%, transparent 70%);
+      padding: 72px 24px 48px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.5);
+      font-size: 1rem;
+      margin-top: 12px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #ffffff;
+      margin-top: 12px;
+    }
+
+    .fallback {
+      margin-top: 16px;
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.85rem;
+    }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+      padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="logo"><img src="logo.png" alt="Trackstar" /></div>
+    <h1 id="heading">You've got a Trackstar partner offer</h1>
+    <p id="subtext">Tap below to open it in the app.</p>
+  </div>
+
+  <div class="container">
+    <a class="btn" id="open-btn" href="#">Open Trackstar</a>
+    <a class="btn-secondary" href="https://apps.apple.com/app/id6775599537">Download on the App Store</a>
+    <p class="fallback">Don't have Trackstar installed yet? Get it above, then come back and tap this link again to claim your offer.</p>
+  </div>
+
+  <footer>
+    &copy; 2026 Trackstar. All rights reserved.
+  </footer>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var token = params.get('token');
+
+    if (!token) {
+      document.getElementById('heading').textContent = 'Invalid offer link';
+      document.getElementById('subtext').textContent = 'This offer link is missing its token.';
+      document.getElementById('open-btn').style.display = 'none';
+    } else {
+      var deepLink = 'trackstar://partner-offer/' + encodeURIComponent(token);
+      document.getElementById('open-btn').href = deepLink;
+      // No automatic redirect on load — in-app browsers (Messenger, Instagram, etc.)
+      // often fail the whole page load if JS tries to navigate to a custom URL scheme
+      // immediately. Only navigate on an explicit tap, which every browser handles
+      // reliably since it's a real user gesture.
+
+      fetch('https://api.trackstar.fitness/api/partner-offers/validate/' + encodeURIComponent(token))
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (!data.valid) {
+            var reasons = {
+              used: 'This offer has already been claimed.',
+              expired: 'This offer link has expired.',
+              not_found: 'This offer link is invalid.'
+            };
+            document.getElementById('heading').textContent = 'Offer unavailable';
+            document.getElementById('subtext').textContent = reasons[data.reason] || 'This offer link is no longer valid.';
+            document.getElementById('open-btn').style.display = 'none';
+          } else {
+            document.getElementById('subtext').textContent =
+              'Free Gold access, plus ' + data.bronzeCount + ' free Bronze credit' +
+              (data.bronzeCount === 1 ? '' : 's') + ' to share with your clients. Tap below to claim it in the app.';
+          }
+        })
+        .catch(function () {
+          // Validation is a nice-to-have preview — if it fails, the app still
+          // does the real check (and consumption) when the deep link is opened.
+        });
+    }
+  </script>
+
+</body>
+</html>
