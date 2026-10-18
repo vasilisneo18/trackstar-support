@@ -21,6 +21,8 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      width: 100%;
+      overflow-x: clip; /* guard against any element forcing horizontal scroll (doesn't break sticky nav) */
     }
     a { color: inherit; }
     img { max-width: 100%; display: block; }
@@ -48,7 +50,7 @@
       transition: opacity 0.12s;
     }
     .nav-cta:hover { opacity: 0.9; }
-    @media (max-width: 760px) { .nav-links { display: none; } }
+    @media (max-width: 760px) { .nav-links { display: none; } .nav-cta { margin-left: auto; } }
 
     /* ---------- Buttons ---------- */
     .btn {
@@ -75,12 +77,12 @@
       border-radius: 999px; padding: 6px 14px; margin-bottom: 22px;
     }
     .hero h1 {
-      font-size: 3.1rem; font-weight: 700; letter-spacing: -1px; line-height: 1.08;
+      font-size: clamp(2.1rem, 7vw, 3.1rem); font-weight: 700; letter-spacing: -1px; line-height: 1.08;
       max-width: 760px; margin: 0 auto;
       background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.72) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .hero .sub { color: rgba(255,255,255,0.55); font-size: 1.15rem; margin: 20px auto 0; max-width: 580px; }
+    .hero .sub { color: rgba(255,255,255,0.55); font-size: clamp(1rem, 3.5vw, 1.15rem); margin: 20px auto 0; max-width: 580px; }
     .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
     .micro { margin-top: 16px; font-size: 0.82rem; color: rgba(255,255,255,0.4); }
 
@@ -100,7 +102,7 @@
     .section { padding: 72px 0; }
     .section-head { text-align: center; max-width: 620px; margin: 0 auto 44px; }
     .section-head .kicker { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-blue); }
-    .section-title { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.5px; margin-top: 10px; }
+    .section-title { font-size: clamp(1.6rem, 5.5vw, 2.1rem); font-weight: 700; letter-spacing: -0.5px; margin-top: 10px; }
     .section-lead { color: rgba(255,255,255,0.5); margin-top: 10px; font-size: 1.05rem; }
 
     /* Alternating feature rows */
@@ -222,7 +224,16 @@
     .foot-bottom { margin-top: 36px; color: rgba(255,255,255,0.25); font-size: 0.82rem; text-align: center; }
     @media (max-width: 680px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
 
-    @media (max-width: 560px) { .hero h1 { font-size: 2.3rem; } .section-title { font-size: 1.7rem; } }
+    @media (max-width: 560px) {
+      .wrap { padding: 0 18px; }
+      .hero { padding: 56px 18px 40px; }
+      .section { padding: 48px 0; }
+      .section-head { margin-bottom: 32px; }
+      .fvisual { height: 210px; font-size: 44px; }
+      .final { padding: 40px 20px; }
+      .btn { padding: 14px 22px; font-size: 0.95rem; }
+      .foot-grid { gap: 20px 16px; }
+    }
   </style>
 </head>
 <body>
