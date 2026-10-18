@@ -3,222 +3,518 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trackstar — Support</title>
+  <title>Trackstar for Coaches — Coach your whole team in one app</title>
+  <meta name="description" content="See whether your athletes actually did the work. Build weekly plans, track adherence, generate AI workouts & diets, and coach your whole roster — athletes train free. From €19/month." />
+  <meta property="og:title" content="Trackstar for Coaches" />
+  <meta property="og:description" content="Coach your whole team in one app. Athletes train free. From €19/month." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackstar.fitness/coaches.html" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --accent-blue: #2e80ff; }
+    html { scroll-behavior: smooth; }
 
     body {
       background-color: #0d0d17;
       color: #ffffff;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
-      min-height: 100vh;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
 
-    /* Header */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    .narrow { max-width: 760px; margin: 0 auto; }
+
+    /* ---------- Nav ---------- */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,13,23,0.8);
+      backdrop-filter: saturate(160%) blur(14px);
+      -webkit-backdrop-filter: saturate(160%) blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-inner { display: flex; align-items: center; gap: 24px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; text-decoration: none; }
+    .brand img { width: 30px; height: 30px; border-radius: 8px; }
+    .nav-links { display: flex; gap: 26px; margin-left: auto; }
+    .nav-links a { text-decoration: none; color: rgba(255,255,255,0.6); font-size: 0.92rem; font-weight: 500; transition: color 0.12s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      text-decoration: none; background: #fff; color: #0d0d17;
+      font-weight: 600; font-size: 0.9rem; padding: 9px 18px; border-radius: 999px;
+      transition: opacity 0.12s;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    @media (max-width: 760px) { .nav-links { display: none; } }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 1rem; font-weight: 600; text-decoration: none;
+      padding: 15px 28px; border-radius: 999px;
+      transition: transform 0.12s ease, opacity 0.12s ease, background 0.12s ease;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: #fff; color: #0d0d17; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-ghost { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.14); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+    /* ---------- Hero ---------- */
     .hero {
-      background: radial-gradient(ellipse at 50% 0%, rgba(46, 128, 255, 0.18) 0%, transparent 70%);
-      padding: 72px 24px 48px;
-      text-align: center;
+      background: radial-gradient(ellipse at 50% -10%, rgba(46,128,255,0.22) 0%, transparent 62%);
+      padding: 84px 24px 56px; text-align: center;
     }
-
-    .logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 20px;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    .eyebrow {
+      display: inline-block; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-blue);
+      background: rgba(46,128,255,0.12); border: 1px solid rgba(46,128,255,0.25);
+      border-radius: 999px; padding: 6px 14px; margin-bottom: 22px;
     }
-
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
     .hero h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 3.1rem; font-weight: 700; letter-spacing: -1px; line-height: 1.08;
+      max-width: 760px; margin: 0 auto;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.72) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero .sub { color: rgba(255,255,255,0.55); font-size: 1.15rem; margin: 20px auto 0; max-width: 580px; }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
+    .micro { margin-top: 16px; font-size: 0.82rem; color: rgba(255,255,255,0.4); }
+
+    /* ---------- Download strip ---------- */
+    .downloads { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+    .store {
+      display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px; padding: 10px 18px; transition: background 0.12s;
+    }
+    .store:hover { background: rgba(255,255,255,0.1); }
+    .store .ic { font-size: 22px; }
+    .store small { display: block; font-size: 0.68rem; color: rgba(255,255,255,0.45); }
+    .store b { font-size: 0.95rem; font-weight: 600; }
+
+    /* ---------- Sections ---------- */
+    .section { padding: 72px 0; }
+    .section-head { text-align: center; max-width: 620px; margin: 0 auto 44px; }
+    .section-head .kicker { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-blue); }
+    .section-title { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.5px; margin-top: 10px; }
+    .section-lead { color: rgba(255,255,255,0.5); margin-top: 10px; font-size: 1.05rem; }
+
+    /* Alternating feature rows */
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 36px; }
+    .frow:nth-child(even) .ftext { order: 2; }
+    .frow h3 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.3px; }
+    .frow p { color: rgba(255,255,255,0.55); margin-top: 12px; font-size: 1rem; }
+    .frow .mini { list-style: none; margin-top: 16px; }
+    .frow .mini li { display: flex; gap: 10px; padding: 5px 0; color: rgba(255,255,255,0.75); font-size: 0.95rem; }
+    .frow .mini li::before { content: "✓"; color: var(--accent-blue); font-weight: 700; }
+    .fvisual {
+      height: 300px; border-radius: 22px;
+      background: linear-gradient(160deg, rgba(46,128,255,0.14), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 56px; color: rgba(255,255,255,0.25);
+    }
+    @media (max-width: 760px) {
+      .frow { grid-template-columns: 1fr; gap: 20px; }
+      .frow:nth-child(even) .ftext { order: 0; }
     }
 
-    .hero p {
-      color: rgba(255,255,255,0.45);
-      font-size: 0.95rem;
-      margin-top: 8px;
+    /* Feature grid */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .feature { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 22px; }
+    .feature .ic {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: rgba(46,128,255,0.15); border: 1px solid rgba(46,128,255,0.25);
+      display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 14px;
     }
+    .feature h4 { font-size: 1.02rem; font-weight: 650; margin-bottom: 5px; }
+    .feature p { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
 
-    /* Content */
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
+    /* Screenshots */
+    .shots { display: flex; gap: 16px; overflow-x: auto; padding: 4px 0 12px; scroll-snap-type: x mandatory; }
+    .phone {
+      flex: 0 0 auto; width: 210px; height: 440px; border-radius: 30px;
+      background: #14141f center/cover no-repeat; border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5); scroll-snap-align: center;
+      display: flex; align-items: flex-end;
     }
+    .phone span { width: 100%; font-size: 0.8rem; color: rgba(255,255,255,0.4); text-align: center; padding: 14px; background: linear-gradient(transparent, rgba(0,0,0,0.6)); border-radius: 0 0 30px 30px; }
 
-    /* Cards */
-    .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 28px;
-      margin-bottom: 16px;
+    /* Steps */
+    .steps { list-style: none; counter-reset: step; max-width: 620px; margin: 0 auto; }
+    .steps li { counter-increment: step; display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .steps li:last-child { border-bottom: none; }
+    .steps li::before {
+      content: counter(step); flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(46,128,255,0.15); border: 1px solid rgba(46,128,255,0.3); color: var(--accent-blue);
+      font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
     }
+    .steps h4 { font-size: 1.02rem; font-weight: 600; }
+    .steps p { font-size: 0.92rem; color: rgba(255,255,255,0.5); }
 
-    .card h2 {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 16px;
+    /* ---------- Pricing ---------- */
+    .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; align-items: stretch; max-width: 820px; margin: 0 auto; }
+    .price-card {
+      position: relative; display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px; padding: 28px 18px; text-align: center;
     }
-
-    /* Contact row */
-    .contact-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    .price-card.bronze { --accent: #cc8033; }
+    .price-card.silver { --accent: #b8bfd1; }
+    .price-card.gold   { --accent: #ffc61a; }
+    .price-card.featured { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 14px 40px rgba(0,0,0,0.35); }
+    .badge {
+      position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      background: var(--accent, #2e80ff); color: #0d0d17;
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 999px; white-space: nowrap;
     }
+    .price-name { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent, #2e80ff); }
+    .metal-tag { display: inline-block; margin-top: 8px; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 3px 11px; opacity: 0.9; }
+    .price-amount { font-size: 2.6rem; font-weight: 750; letter-spacing: -1px; margin: 8px 0 2px; }
+    .price-amount small { font-size: 0.95rem; font-weight: 500; color: rgba(255,255,255,0.5); }
+    .price-annual { color: rgba(255,255,255,0.5); font-size: 0.88rem; }
+    .price-cap { margin-top: 16px; font-size: 1rem; color: rgba(255,255,255,0.82); }
+    .price-cap strong { color: #fff; }
+    .price-desc { margin-top: 10px; margin-bottom: 20px; font-size: 0.85rem; line-height: 1.4; color: rgba(255,255,255,0.5); }
+    .price-cta { margin-top: auto; display: block; text-decoration: none; font-size: 0.92rem; font-weight: 600; padding: 12px 16px; border-radius: 999px; transition: opacity 0.12s ease, background 0.12s ease; }
+    .price-cta.solid { background: #fff; color: #0d0d17; }
+    .price-cta.solid:hover { opacity: 0.9; }
+    .price-cta.ghost { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.18); }
+    .price-cta.ghost:hover { background: rgba(255,255,255,0.1); }
+    .includes { margin: 26px auto 0; max-width: 480px; }
+    .includes-title { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); text-align: center; margin-bottom: 6px; }
+    .price-list { list-style: none; text-align: left; }
+    .price-list li { display: flex; align-items: flex-start; gap: 11px; padding: 9px 0; font-size: 0.96rem; color: rgba(255,255,255,0.82); }
+    .price-list .tick { color: var(--accent-blue); font-weight: 700; flex-shrink: 0; }
+    .note { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 22px; margin: 16px auto 0; max-width: 620px; text-align: center; color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+    .note strong { color: #fff; }
+    @media (max-width: 680px) { .price-grid { grid-template-columns: 1fr; gap: 24px; } }
 
-    .contact-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(46, 128, 255, 0.15);
-      border: 1px solid rgba(46, 128, 255, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
+    /* ---------- FAQ ---------- */
+    .faq { max-width: 720px; margin: 0 auto; }
+    .faq details { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 6px 0; }
+    .faq summary { cursor: pointer; list-style: none; padding: 16px 0; font-size: 1.02rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; color: rgba(255,255,255,0.4); font-size: 1.4rem; font-weight: 400; }
+    .faq details[open] summary::after { content: "–"; }
+    .faq p { color: rgba(255,255,255,0.55); font-size: 0.96rem; padding: 0 0 18px; }
 
-    .contact-info p {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.35);
-    }
+    /* ---------- Final CTA ---------- */
+    .final { text-align: center; background: radial-gradient(ellipse at 50% 120%, rgba(46,128,255,0.2) 0%, transparent 60%); border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; padding: 56px 28px; }
+    .final h2 { font-size: 2rem; font-weight: 700; letter-spacing: -0.4px; }
+    .final p { color: rgba(255,255,255,0.5); margin: 10px 0 26px; }
 
-    .contact-info a {
-      color: #2e80ff;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
+    /* ---------- Footer ---------- */
+    footer { border-top: 1px solid rgba(255,255,255,0.07); padding: 48px 0 40px; margin-top: 40px; }
+    .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
+    .foot-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; margin-bottom: 12px; }
+    .foot-brand img { width: 28px; height: 28px; border-radius: 8px; }
+    .foot-tag { color: rgba(255,255,255,0.4); font-size: 0.88rem; max-width: 260px; }
+    .foot-col h5 { font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .foot-col a { display: block; text-decoration: none; color: rgba(255,255,255,0.6); font-size: 0.92rem; padding: 5px 0; }
+    .foot-col a:hover { color: #fff; }
+    .foot-bottom { margin-top: 36px; color: rgba(255,255,255,0.25); font-size: 0.82rem; text-align: center; }
+    @media (max-width: 680px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
 
-    .contact-info a:hover { text-decoration: underline; }
-
-    /* Topic list */
-    .topic-list {
-      list-style: none;
-    }
-
-    .topic-list li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.75);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .topic-list li:last-child { border-bottom: none; }
-
-    .topic-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #2e80ff;
-      flex-shrink: 0;
-    }
-
-    /* Privacy link */
-    .privacy-link {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-decoration: none;
-      color: rgba(255,255,255,0.75);
-      font-size: 0.95rem;
-    }
-
-    .privacy-link:hover { color: #fff; }
-
-    .privacy-link .arrow {
-      color: rgba(255,255,255,0.25);
-      font-size: 1.1rem;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      color: rgba(255,255,255,0.2);
-      font-size: 0.8rem;
-      padding-bottom: 40px;
-    }
+    @media (max-width: 560px) { .hero h1 { font-size: 2.3rem; } .section-title { font-size: 1.7rem; } }
   </style>
 </head>
 <body>
 
-  <div class="hero">
-    <div class="logo"><img src="logo.png" alt="Trackstar" /></div>
-    <h1>Trackstar Support</h1>
-    <p>Fitness coaching &amp; workout tracking</p>
-  </div>
+  <!-- Nav -->
+  <nav>
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html"><img src="icon-graphite.png" alt="Trackstar" />Trackstar</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a class="nav-cta" href="#pricing">Get started</a>
+    </div>
+  </nav>
 
-  <div class="container">
+  <!-- Hero -->
+  <header class="hero">
+    <div class="eyebrow">Trackstar for Coaches</div>
+    <h1>See whether your athletes actually did the work.</h1>
+    <p class="sub">Build weekly plans, track every session, and coach your whole roster from one app — athletes train free. No spreadsheets, no "did you train today?" texts.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#pricing">See pricing</a>
+      <a class="btn btn-ghost" href="mailto:support@trackstar.fitness?subject=Coach%20account%20request&body=Name%3A%0AGym%2Fteam%3A%0ANumber%20of%20athletes%3A%0A">Request access</a>
+    </div>
+    <div class="downloads">
+      <!-- Android package is live; replace the iOS href with your App Store URL once you have the app ID. -->
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.vasilisneo.trackstar">
+        <span class="ic">🤖</span><span><small>Get it on</small><b>Google Play</b></span>
+      </a>
+      <a class="store" href="#">
+        <span class="ic"></span><span><small>Download on the</small><b>App Store</b></span>
+      </a>
+    </div>
+    <p class="micro">iOS &amp; Android · Cancel anytime · No card required to start</p>
+  </header>
 
-    <div class="card">
-      <h2>Contact</h2>
-      <div class="contact-row">
-        <div class="contact-icon">✉️</div>
-        <div class="contact-info">
-          <a href="mailto:support@trackstar.fitness">support@trackstar.fitness</a>
-          <p>We respond within 24–48 hours</p>
+  <!-- Problem / solution -->
+  <section class="section" id="why">
+    <div class="wrap narrow section-head">
+      <div class="kicker">Why Trackstar</div>
+      <h2 class="section-title">Coaching shouldn't live in spreadsheets and chat threads</h2>
+      <p class="section-lead">Keep every athlete's plan, logged sessions, progress and diet in one place — and actually see who's following the program and who's falling behind.</p>
+    </div>
+  </section>
+
+  <!-- Feature rows -->
+  <section class="section" id="features" style="padding-top:0;">
+    <div class="wrap">
+      <div class="frow">
+        <div class="ftext">
+          <h3>Real adherence, at a glance</h3>
+          <p>Your roster shows who trained, who skipped, and who's slipping — this week, at a glance. Catch a drop-off before it becomes a lost client.</p>
+          <ul class="mini">
+            <li>Per-athlete weekly completion</li>
+            <li>Logged sessions land in real time</li>
+            <li>Session-completed push notifications</li>
+          </ul>
+        </div>
+        <div class="fvisual">📊</div>
+      </div>
+
+      <div class="frow">
+        <div class="ftext">
+          <h3>Build plans once, reuse everywhere</h3>
+          <p>Create a week of training per athlete, or build templates and apply them across your whole roster in seconds. Supersets, durations, rep ranges and rest — all supported.</p>
+          <ul class="mini">
+            <li>Weekly plan builder</li>
+            <li>Reusable templates &amp; apply-to-athlete</li>
+            <li>Edits sync instantly to the athlete's app</li>
+          </ul>
+        </div>
+        <div class="fvisual">🗓️</div>
+      </div>
+
+      <div class="frow">
+        <div class="ftext">
+          <h3>AI workout &amp; diet planners</h3>
+          <p>Generate a full weekly training block or a macro-balanced meal plan in seconds, then tweak it. A starting point for every athlete, without starting from a blank page.</p>
+          <ul class="mini">
+            <li>AI workout plan generation</li>
+            <li>AI diet plans with per-meal macros</li>
+            <li>Fully editable before you assign</li>
+          </ul>
+        </div>
+        <div class="fvisual">✨</div>
+      </div>
+
+      <div class="frow">
+        <div class="ftext">
+          <h3>Progress you can show</h3>
+          <p>Per-exercise trends, volume, streaks and personal records — proof your coaching is working, and the story that keeps athletes paying and referring.</p>
+          <ul class="mini">
+            <li>Per-exercise progress charts</li>
+            <li>Volume, completion rate &amp; PRs</li>
+            <li>Full session history per athlete</li>
+          </ul>
+        </div>
+        <div class="fvisual">📈</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature grid (everything else) -->
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">And more</div>
+        <h2 class="section-title">Everything you need to run your roster</h2>
+      </div>
+      <div class="grid">
+        <div class="feature"><div class="ic">🎁</div><h4>Athletes train free</h4><p>Every athlete on your roster gets Athlete Gold (normally €4.99/mo) included — on you.</p></div>
+        <div class="feature"><div class="ic">🍽️</div><h4>Diet tracking</h4><p>Athletes log meals and macros; you see their nutrition alongside their training.</p></div>
+        <div class="feature"><div class="ic">💬</div><h4>Exercise feedback</h4><p>Leave comments on any exercise — a focused coach↔athlete thread, not lost in chat.</p></div>
+        <div class="feature"><div class="ic">📅</div><h4>Session booking</h4><p>Publish your availability and let athletes book slots. Check-ins with QR session codes.</p></div>
+        <div class="feature"><div class="ic">🔗</div><h4>One-tap onboarding</h4><p>Share a QR code or invite link — athletes install the app and join your roster in seconds.</p></div>
+        <div class="feature"><div class="ic">📲</div><h4>Native iOS &amp; Android</h4><p>A real app on both platforms — with push notifications, steps, and offline support.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">A look inside</div>
+        <h2 class="section-title">The coach view</h2>
+        <p class="section-lead">Your roster, their sessions, their progress — on your phone.</p>
+      </div>
+      <!-- Add demo screenshots: save as shot-roster.png / shot-athlete.png / shot-progress.png and set
+           background-image on each .phone (e.g. style="background-image:url('shot-roster.png')"). -->
+      <div class="shots">
+        <div class="phone"><span>Your roster &amp; weekly adherence</span></div>
+        <div class="phone"><span>Each athlete's plan &amp; history</span></div>
+        <div class="phone"><span>Progress &amp; personal records</span></div>
+        <div class="phone"><span>AI plan generation</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" id="how" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Getting started</div>
+        <h2 class="section-title">Up and running in a day</h2>
+      </div>
+      <ol class="steps">
+        <li><div><h4>Request access</h4><p>Email us and we'll set up your coach account — no card required to start.</p></div></li>
+        <li><div><h4>Invite your athletes</h4><p>Share a QR code or link. They install the app and join your roster — and get Athlete Gold free.</p></div></li>
+        <li><div><h4>Coach from anywhere</h4><p>Assign plans, watch sessions land in real time, and keep everyone progressing.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section" id="pricing" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Pricing</div>
+        <h2 class="section-title">Pick the roster size you need</h2>
+        <p class="section-lead">Your athletes always train free. Cancel anytime.</p>
+      </div>
+
+      <div class="price-grid">
+        <div class="price-card bronze">
+          <div class="price-name">Starter</div>
+          <div class="metal-tag">Bronze</div>
+          <div class="price-amount">€19<small> / month</small></div>
+          <div class="price-annual">or €190 / year — two months free</div>
+          <div class="price-cap">Up to <strong>10 athletes</strong></div>
+          <p class="price-desc">For coaches just getting started online.</p>
+          <a class="price-cta ghost" href="mailto:support@trackstar.fitness?subject=Coach%20account%20request%20(Starter)&body=Name%3A%0AGym%2Fteam%3A%0ANumber%20of%20athletes%3A%0A">Get started</a>
+        </div>
+        <div class="price-card silver featured">
+          <div class="badge">Most popular</div>
+          <div class="price-name">Coach</div>
+          <div class="metal-tag">Silver</div>
+          <div class="price-amount">€39<small> / month</small></div>
+          <div class="price-annual">or €390 / year — two months free</div>
+          <div class="price-cap">Up to <strong>25 athletes</strong></div>
+          <p class="price-desc">For growing coaches building their roster.</p>
+          <a class="price-cta solid" href="mailto:support@trackstar.fitness?subject=Coach%20account%20request%20(Coach)&body=Name%3A%0AGym%2Fteam%3A%0ANumber%20of%20athletes%3A%0A">Get started</a>
+        </div>
+        <div class="price-card gold">
+          <div class="price-name">Pro</div>
+          <div class="metal-tag">Gold</div>
+          <div class="price-amount">€69<small> / month</small></div>
+          <div class="price-annual">or €690 / year — two months free</div>
+          <div class="price-cap">Up to <strong>50 athletes</strong></div>
+          <p class="price-desc">For established coaches &amp; studios.</p>
+          <a class="price-cta ghost" href="mailto:support@trackstar.fitness?subject=Coach%20account%20request%20(Pro)&body=Name%3A%0AGym%2Fteam%3A%0ANumber%20of%20athletes%3A%0A">Get started</a>
+        </div>
+      </div>
+
+      <div class="includes">
+        <p class="includes-title">Every plan includes</p>
+        <ul class="price-list">
+          <li><span class="tick">✓</span><span>Weekly plans, templates &amp; apply-to-athlete</span></li>
+          <li><span class="tick">✓</span><span>Full session history, stats &amp; progress charts</span></li>
+          <li><span class="tick">✓</span><span>AI workout &amp; diet plan generation</span></li>
+          <li><span class="tick">✓</span><span><strong>Athlete Gold</strong> included free for every athlete on your roster</span></li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <strong>Coaching a team or gym?</strong> We offer custom group access with volume pricing and Athlete Gold included for every athlete. <a href="mailto:support@trackstar.fitness?subject=Trackstar%20for%20gyms" style="color:#2e80ff;text-decoration:none;">Contact us →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">FAQ</div>
+        <h2 class="section-title">Questions, answered</h2>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary>Do my athletes have to pay?</summary>
+          <p>No. Every athlete on your roster gets Athlete Gold free — it's included in your coach plan. They just download the app and join your team.</p>
+        </details>
+        <details>
+          <summary>How do athletes join my roster?</summary>
+          <p>You share a QR code or an invite link from the app. Your athlete installs Trackstar, scans or taps it, and they're on your roster in seconds.</p>
+        </details>
+        <details>
+          <summary>What platforms is it on?</summary>
+          <p>Trackstar is a native app on both iOS and Android, with push notifications, step tracking and offline support.</p>
+        </details>
+        <details>
+          <summary>Is there a contract?</summary>
+          <p>No lock-in. Pay monthly or annually (two months free on annual) and cancel anytime.</p>
+        </details>
+        <details>
+          <summary>What if I have more than 50 athletes, or a whole gym?</summary>
+          <p>We offer custom group access with volume pricing and Athlete Gold for every athlete. <a href="mailto:support@trackstar.fitness?subject=Trackstar%20for%20gyms" style="color:#2e80ff;">Get in touch</a> and we'll sort you out.</p>
+        </details>
+        <details>
+          <summary>How do I get started?</summary>
+          <p>Pick a plan above and hit "Get started" — it opens a short email. We'll set up your coach account, usually the same day. No card required to begin.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section" style="padding-top:0;">
+    <div class="wrap narrow">
+      <div class="final">
+        <h2>Ready to coach on Trackstar?</h2>
+        <p>Set up your roster today — athletes train free, you see everything.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:support@trackstar.fitness?subject=Coach%20account%20request&body=Name%3A%0AGym%2Fteam%3A%0ANumber%20of%20athletes%3A%0A">Request access</a>
+          <a class="btn btn-ghost" href="#pricing">See pricing</a>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h2>Common Topics</h2>
-      <ul class="topic-list">
-        <li><span class="topic-dot"></span>Subscription billing and plan upgrades</li>
-        <li><span class="topic-dot"></span>Account login or access issues</li>
-        <li><span class="topic-dot"></span>Workout plan or data sync problems</li>
-        <li><span class="topic-dot"></span>Feature requests and feedback</li>
-        <li><span class="topic-dot"></span>Bug reports</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Legal</h2>
-      <a class="privacy-link" href="privacy.html">
-        <span>Privacy Policy</span>
-        <span class="arrow">›</span>
-      </a>
-      <div style="height:1px;background:rgba(255,255,255,0.06);margin:12px 0;"></div>
-      <a class="privacy-link" href="terms.html">
-        <span>Terms of Use</span>
-        <span class="arrow">›</span>
-      </a>
-      <div style="height:1px;background:rgba(255,255,255,0.06);margin:12px 0;"></div>
-      <a class="privacy-link" href="delete-account.html">
-        <span>Delete Your Account</span>
-        <span class="arrow">›</span>
-      </a>
-    </div>
-
-  </div>
-
+  <!-- Footer -->
   <footer>
-    &copy; 2026 Trackstar. All rights reserved.
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-brand"><img src="icon-graphite.png" alt="Trackstar" />Trackstar</div>
+          <p class="foot-tag">Fitness coaching &amp; workout tracking for coaches and their athletes.</p>
+        </div>
+        <div class="foot-col">
+          <h5>Product</h5>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="foot-col">
+          <h5>Get the app</h5>
+          <a href="https://play.google.com/store/apps/details?id=com.vasilisneo.trackstar">Google Play</a>
+          <a href="#">App Store</a>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <a href="support.html">Support</a>
+          <a href="mailto:support@trackstar.fitness">Contact</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+      </div>
+      <div class="foot-bottom">&copy; 2026 Trackstar. All rights reserved.</div>
+    </div>
   </footer>
 
 </body>
