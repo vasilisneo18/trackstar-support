@@ -223,8 +223,10 @@
     .foot-col a:hover { color: #fff; }
     .foot-bottom { margin-top: 36px; color: rgba(255,255,255,0.25); font-size: 0.82rem; text-align: center; }
     @media (max-width: 680px) {
-      .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px 16px; }
-      .foot-grid > :first-child { grid-column: 1 / -1; margin-bottom: 4px; }
+      .foot-grid { grid-template-columns: 1fr 1fr; gap: 30px 16px; }
+      .foot-grid > :first-child { grid-column: 1 / -1; margin-bottom: 4px; } /* brand full width */
+      .foot-app { grid-column: 1 / -1; }                                     /* get the app full width, below */
+      .foot-app a { display: inline-block; margin-right: 26px; }
       .foot-tag { max-width: none; }
       .foot-col a { padding: 7px 0; }
     }
@@ -520,16 +522,16 @@
           <a href="#faq">FAQ</a>
         </div>
         <div class="foot-col">
-          <h5>Get the app</h5>
-          <a href="https://play.google.com/store/apps/details?id=com.vasilisneo.trackstar">Google Play</a>
-          <a href="https://apps.apple.com/app/id6775599537">App Store</a>
-        </div>
-        <div class="foot-col">
           <h5>Company</h5>
           <a href="support.html">Support</a>
           <a href="mailto:support@trackstar.fitness">Contact</a>
           <a href="privacy.html">Privacy</a>
           <a href="terms.html">Terms</a>
+        </div>
+        <div class="foot-col foot-app">
+          <h5>Get the app</h5>
+          <a href="https://play.google.com/store/apps/details?id=com.vasilisneo.trackstar">Google Play</a>
+          <a href="https://apps.apple.com/app/id6775599537">App Store</a>
         </div>
       </div>
       <div class="foot-bottom">&copy; 2026 Trackstar. All rights reserved.</div>
