@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trackstar — Join a Group</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #0d0d17;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .hero {
+      background: radial-gradient(ellipse at 50% 0%, rgba(46, 128, 255, 0.18) 0%, transparent 70%);
+      padding: 72px 24px 48px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.5);
+      font-size: 1rem;
+      margin-top: 12px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #ffffff;
+      margin-top: 12px;
+    }
+
+    .fallback {
+      margin-top: 16px;
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.85rem;
+    }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+      padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="logo"><img src="logo.png" alt="Trackstar" /></div>
+    <h1 id="heading">Join a group on Trackstar</h1>
+    <p id="subtext">Share your runs, rides and ski days live with your group and see who's fastest today.</p>
+  </div>
+
+  <div class="container">
+    <a class="btn" id="open-btn" href="#">Open in Trackstar</a>
+    <a class="btn-secondary" href="https://apps.apple.com/app/id6775599537">Download on the App Store</a>
+    <p class="fallback">Don't have Trackstar installed yet? Get it above, then come back and tap this link again to join the group.</p>
+  </div>
+
+  <footer>
+    &copy; 2026 Trackstar. All rights reserved.
+  </footer>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var token = params.get('token');
+
+    if (token) {
+      // Only navigate on an explicit tap — in-app browsers often fail a page that redirects to a
+      // custom URL scheme on load.
+      document.getElementById('open-btn').href = 'trackstar://group/' + encodeURIComponent(token);
+    } else {
+      document.getElementById('heading').textContent = 'Invalid group link';
+      document.getElementById('subtext').textContent = 'This group link is missing its code.';
+      document.getElementById('open-btn').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
