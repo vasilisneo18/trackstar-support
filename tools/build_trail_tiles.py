@@ -117,7 +117,7 @@ def split_by_tile(points):
 def main():
     out_dir, extracts = sys.argv[1], sys.argv[2:]
     os.makedirs(os.path.join(out_dir, "t"), exist_ok=True)
-    tiles, coverage, index = {}, set(), {}
+    tiles, coverage, index, routes = {}, set(), {}, {}
     for arg in extracts:
         cc, path = arg.split(":", 1)
         rel = Relations()
@@ -144,9 +144,11 @@ def main():
                                   "box": [round(min(lats), 4), round(min(lons), 4), round(max(lats), 4), round(max(lons), 4)],
                                   "near": near[2] if near else None, "nearEn": near[3] if near else None}
                 lines = [rdp(line, SIMPLIFY_DEG) for line in full]
+                route = [{"latitudes": [round(a, 5) for a, _ in l], "longitudes": [round(b, 5) for _, b in l]}
+                         for l in lines if len(l) >= 2]
+                routes[t["id"]] = route
                 with open(os.path.join(out_dir, "t", f"{t['id']}.json"), "w") as f:
-                    json.dump({"lines": [{"latitudes": [round(a, 5) for a, _ in l], "longitudes": [round(b, 5) for _, b in l]}
-                                         for l in lines if len(l) >= 2]}, f, separators=(",", ":"))
+                    json.dump({"lines": route}, f, separators=(",", ":"))
             for wid in t["ways"]:
                 pts = ways.geom.get(wid)
                 if not pts:
@@ -168,11 +170,18 @@ def main():
         by_cc.setdefault(t["cc"], []).append(t)
     countries_path = os.path.join(out_dir, "countries.json")
     countries = {c["cc"]: c for c in json.load(open(countries_path))["countries"]} if os.path.exists(countries_path) else {}
+    os.makedirs(os.path.join(out_dir, "pack"), exist_ok=True)
     for cc, trails in by_cc.items():
+        trails = sorted(trails, key=lambda x: x["n"].lower())
         with open(os.path.join(out_dir, "index", cc + ".json"), "w") as f:
-            json.dump({"trails": sorted(trails, key=lambda x: x["n"].lower())}, f, ensure_ascii=False, separators=(",", ":"))
+            json.dump({"trails": trails}, f, ensure_ascii=False, separators=(",", ":"))
+        # Offline pack: the index plus every route, one download.
+        pack_path = os.path.join(out_dir, "pack", cc + ".json")
+        with open(pack_path, "w") as f:
+            json.dump({"trails": trails, "routes": {str(t["id"]): routes.get(t["id"], []) for t in trails}},
+                      f, ensure_ascii=False, separators=(",", ":"))
         boxes = [t["box"] for t in trails]
-        countries[cc] = {"cc": cc, "count": len(trails),
+        countries[cc] = {"cc": cc, "count": len(trails), "packBytes": os.path.getsize(pack_path),
                          "box": [min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes)]}
     with open(countries_path, "w") as f:
         json.dump({"source": "OpenStreetMap contributors (ODbL)", "countries": sorted(countries.values(), key=lambda c: c["cc"])},
