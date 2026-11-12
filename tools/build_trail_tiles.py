@@ -1,11 +1,14 @@
 """Builds static hiking-trail tiles for trackstar.fitness/trails from Geofabrik OSM extracts.
 
+Also writes index.json (every named trail: id, names, length, network, colour, nearest place,
+country, box) for the app's trail browser, and t/{id}.json with each trail's full route.
+
 Each tile {floor(lat*10)}_{floor(lon*10)}.json = {"trails": [{id, name, ref, network, colour,
 lines: [{latitudes, longitudes}]}]} — the same shape as the backend's /api/trails/tile. coverage.json
 lists the tiles these extracts cover (a 404 inside coverage means "no trails here").
 Data © OpenStreetMap contributors (ODbL).
 
-usage: python build_trail_tiles.py OUT_DIR extract.osm.pbf [extract2.osm.pbf ...]
+usage: python build_trail_tiles.py OUT_DIR CC:extract.osm.pbf [CC:extract2.osm.pbf ...]   (CC = ISO country)
 """
 import json, math, os, sys
 import osmium
@@ -33,9 +36,27 @@ class Relations(osmium.SimpleHandler):
         tags = r.tags
         osmc = tags.get("osmc:symbol")
         colour = tags.get("colour") or (osmc.split(":")[0] if osmc and ":" in osmc and osmc.split(":")[0] else None)
-        self.trails[r.id] = {"id": r.id, "name": tags.get("name"),
+        self.trails[r.id] = {"id": r.id, "name": tags.get("name"), "name_en": tags.get("name:en"),
+                             "name_el": tags.get("name:el"),
                              "ref": tags.get("ref"), "network": tags.get("network"), "colour": colour, "ways": ways}
         self.way_ids.update(ways)
+
+
+class Places(osmium.SimpleHandler):
+    """Villages / towns / cities, to say where a trail is ("near Platres")."""
+    def __init__(self):
+        super().__init__()
+        self.places = []
+
+    def node(self, n):
+        if n.tags.get("place") in ("city", "town", "village") and "name" in n.tags:
+            self.places.append((n.location.lat, n.location.lon, n.tags.get("name"), n.tags.get("name:en")))
+
+
+def dist_m(a, b):
+    la1, lo1 = map(math.radians, a); la2, lo2 = map(math.radians, b)
+    x = (lo2 - lo1) * math.cos((la1 + la2) / 2); y = la2 - la1
+    return 6371000 * math.hypot(x, y)
 
 
 class Ways(osmium.SimpleHandler):
@@ -95,15 +116,37 @@ def split_by_tile(points):
 
 def main():
     out_dir, extracts = sys.argv[1], sys.argv[2:]
-    os.makedirs(out_dir, exist_ok=True)
-    tiles, coverage = {}, set()
-    for path in extracts:
+    os.makedirs(os.path.join(out_dir, "t"), exist_ok=True)
+    tiles, coverage, index = {}, set(), {}
+    for arg in extracts:
+        cc, path = arg.split(":", 1)
         rel = Relations()
         rel.apply_file(path)
         ways = Ways(rel.way_ids)
         ways.apply_file(path, locations=True)
+        places = Places()
+        places.apply_file(path)
         coverage |= ways.coverage
         for t in rel.trails.values():
+            # Index + full route for the browser (named trails only; a trail in two extracts once).
+            full = [ways.geom[w] for w in t["ways"] if w in ways.geom]
+            if full and (t["name"] or t["ref"]) and t["id"] not in index:
+                length = sum(dist_m(a, b) for line in full for a, b in zip(line, line[1:]))
+                lats = [p[0] for line in full for p in line]; lons = [p[1] for line in full for p in line]
+                center = ((min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2)
+                start = full[0][0]
+                near = min(places.places, key=lambda p: dist_m(start, (p[0], p[1])), default=None)
+                near = near if near and dist_m(start, (near[0], near[1])) < 15000 else None
+                index[t["id"]] = {"id": t["id"], "n": t["name"] or t["ref"], "en": t["name_en"], "el": t["name_el"],
+                                  "ref": t["ref"], "net": t["network"], "c": t["colour"], "cc": cc,
+                                  "km": round(length / 1000, 1),
+                                  "lat": round(center[0], 4), "lon": round(center[1], 4),
+                                  "box": [round(min(lats), 4), round(min(lons), 4), round(max(lats), 4), round(max(lons), 4)],
+                                  "near": near[2] if near else None, "nearEn": near[3] if near else None}
+                lines = [rdp(line, SIMPLIFY_DEG) for line in full]
+                with open(os.path.join(out_dir, "t", f"{t['id']}.json"), "w") as f:
+                    json.dump({"lines": [{"latitudes": [round(a, 5) for a, _ in l], "longitudes": [round(b, 5) for _, b in l]}
+                                         for l in lines if len(l) >= 2]}, f, separators=(",", ":"))
             for wid in t["ways"]:
                 pts = ways.geom.get(wid)
                 if not pts:
@@ -117,10 +160,31 @@ def main():
                             entry["lines"].append({"latitudes": [round(a, 5) for a, _ in run],
                                                    "longitudes": [round(b, 5) for _, b in run]})
         print(path, len(rel.trails), "trails")
+    # One index per country (the app loads only the ones it needs) + countries.json listing them.
+    # Countries already in OUT_DIR from earlier runs are kept, so countries can be added one at a time.
+    os.makedirs(os.path.join(out_dir, "index"), exist_ok=True)
+    by_cc = {}
+    for t in index.values():
+        by_cc.setdefault(t["cc"], []).append(t)
+    countries_path = os.path.join(out_dir, "countries.json")
+    countries = {c["cc"]: c for c in json.load(open(countries_path))["countries"]} if os.path.exists(countries_path) else {}
+    for cc, trails in by_cc.items():
+        with open(os.path.join(out_dir, "index", cc + ".json"), "w") as f:
+            json.dump({"trails": sorted(trails, key=lambda x: x["n"].lower())}, f, ensure_ascii=False, separators=(",", ":"))
+        boxes = [t["box"] for t in trails]
+        countries[cc] = {"cc": cc, "count": len(trails),
+                         "box": [min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes)]}
+    with open(countries_path, "w") as f:
+        json.dump({"source": "OpenStreetMap contributors (ODbL)", "countries": sorted(countries.values(), key=lambda c: c["cc"])},
+                  f, separators=(",", ":"))
+    print(len(index), "trails in", len(by_cc), "countries")
     for key, trails in tiles.items():
         with open(os.path.join(out_dir, key + ".json"), "w") as f:
             json.dump({"trails": list(trails.values())}, f, ensure_ascii=False, separators=(",", ":"))
-    with open(os.path.join(out_dir, "coverage.json"), "w") as f:
+    cov_path = os.path.join(out_dir, "coverage.json")
+    if os.path.exists(cov_path):
+        coverage |= set(json.load(open(cov_path))["tiles"])
+    with open(cov_path, "w") as f:
         json.dump({"source": "OpenStreetMap contributors (ODbL)", "tiles": sorted(coverage | set(tiles))}, f, separators=(",", ":"))
     print(len(tiles), "tiles,", len(coverage | set(tiles)), "covered")
 
