@@ -6,14 +6,21 @@ country, box) for the app's trail browser, and t/{id}.json with each trail's ful
 Each tile {floor(lat*10)}_{floor(lon*10)}.json = {"trails": [{id, name, ref, network, colour,
 lines: [{latitudes, longitudes}]}]} — the same shape as the backend's /api/trails/tile. coverage.json
 lists the tiles these extracts cover (a 404 inside coverage means "no trails here").
+Safety: races / marathons and routes that are mostly main road are left out; motorway sections are
+cut out (pedestrians aren't allowed there); sections on main roads (primary / secondary / trunk) are
+kept but tagged "road": "main" so the apps draw them as roads and warn ("roadKm" per trail).
+
 Data © OpenStreetMap contributors (ODbL).
 
 usage: python build_trail_tiles.py OUT_DIR CC:extract.osm.pbf [CC:extract2.osm.pbf ...]   (CC = ISO country)
 """
-import json, math, os, sys
+import json, math, os, re, sys
 import osmium
 
 TILE = 0.1
+RACE = re.compile(r"(race|marathon|μαραθ|αγών|αγων|ultra|trail run|koşu)", re.I)
+MOTORWAY = {"motorway", "motorway_link"}
+MAIN_ROAD = {"trunk", "trunk_link", "primary", "primary_link", "secondary", "secondary_link"}
 SIMPLIFY_DEG = 0.00003   # ~3 m
 
 
@@ -30,6 +37,8 @@ class Relations(osmium.SimpleHandler):
     def relation(self, r):
         if r.tags.get("route") not in ("hiking", "foot"):
             return
+        if RACE.search(r.tags.get("name", "") + " " + r.tags.get("name:en", "")):
+            return   # a race course, not a hiking trail
         ways = [m.ref for m in r.members if m.type == "w"]
         if not ways:
             return
@@ -64,6 +73,7 @@ class Ways(osmium.SimpleHandler):
         super().__init__()
         self.wanted = wanted
         self.geom = {}
+        self.main_road = set()
         self.coverage = set()
 
     def way(self, w):
@@ -73,9 +83,13 @@ class Ways(osmium.SimpleHandler):
                 if loc.valid():
                     self.coverage.add(tile_key(loc.lat, loc.lon))
             if w.id in self.wanted:
+                if w.tags.get("highway") in MOTORWAY:
+                    return   # cut out: never show a trail on a motorway
                 pts = [(n.location.lat, n.location.lon) for n in w.nodes if n.location.valid()]
                 if len(pts) >= 2:
                     self.geom[w.id] = pts
+                    if w.tags.get("highway") in MAIN_ROAD:
+                        self.main_road.add(w.id)
         except osmium.InvalidLocationError:
             pass
 
@@ -129,9 +143,16 @@ def main():
         coverage |= ways.coverage
         for t in rel.trails.values():
             # Index + full route for the browser (named trails only; a trail in two extracts once).
-            full = [ways.geom[w] for w in t["ways"] if w in ways.geom]
-            if full and (t["name"] or t["ref"]) and t["id"] not in index:
-                length = sum(dist_m(a, b) for line in full for a, b in zip(line, line[1:]))
+            member_ways = [w for w in t["ways"] if w in ways.geom]
+            full = [ways.geom[w] for w in member_ways]
+            if not full:
+                continue
+            length = sum(dist_m(a, b) for line in full for a, b in zip(line, line[1:]))
+            road = sum(dist_m(a, b) for w in member_ways if w in ways.main_road
+                       for a, b in zip(ways.geom[w], ways.geom[w][1:]))
+            if length > 0 and road / length > 0.5:
+                continue   # mostly main road: a road walk, not a trail
+            if (t["name"] or t["ref"]) and t["id"] not in index:
                 lats = [p[0] for line in full for p in line]; lons = [p[1] for line in full for p in line]
                 center = ((min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2)
                 start = full[0][0]
@@ -139,17 +160,22 @@ def main():
                 near = near if near and dist_m(start, (near[0], near[1])) < 15000 else None
                 index[t["id"]] = {"id": t["id"], "n": t["name"] or t["ref"], "en": t["name_en"], "el": t["name_el"],
                                   "ref": t["ref"], "net": t["network"], "c": t["colour"], "cc": cc,
-                                  "km": round(length / 1000, 1),
+                                  "km": round(length / 1000, 1), "roadKm": round(road / 1000, 1),
                                   "lat": round(center[0], 4), "lon": round(center[1], 4),
                                   "box": [round(min(lats), 4), round(min(lons), 4), round(max(lats), 4), round(max(lons), 4)],
                                   "near": near[2] if near else None, "nearEn": near[3] if near else None}
-                lines = [rdp(line, SIMPLIFY_DEG) for line in full]
-                route = [{"latitudes": [round(a, 5) for a, _ in l], "longitudes": [round(b, 5) for _, b in l]}
-                         for l in lines if len(l) >= 2]
+                route = []
+                for w in member_ways:
+                    l = rdp(ways.geom[w], SIMPLIFY_DEG)
+                    if len(l) >= 2:
+                        line = {"latitudes": [round(a, 5) for a, _ in l], "longitudes": [round(b, 5) for _, b in l]}
+                        if w in ways.main_road:
+                            line["road"] = "main"
+                        route.append(line)
                 routes[t["id"]] = route
                 with open(os.path.join(out_dir, "t", f"{t['id']}.json"), "w") as f:
                     json.dump({"lines": route}, f, separators=(",", ":"))
-            for wid in t["ways"]:
+            for wid in member_ways:
                 pts = ways.geom.get(wid)
                 if not pts:
                     continue
@@ -159,8 +185,10 @@ def main():
                     entry = tile.setdefault(t["id"], {k: t[k] for k in ("id", "name", "ref", "network", "colour")} | {"lines": []})
                     for run in runs:
                         if len(run) >= 2:
-                            entry["lines"].append({"latitudes": [round(a, 5) for a, _ in run],
-                                                   "longitudes": [round(b, 5) for _, b in run]})
+                            line = {"latitudes": [round(a, 5) for a, _ in run], "longitudes": [round(b, 5) for _, b in run]}
+                            if wid in ways.main_road:
+                                line["road"] = "main"
+                            entry["lines"].append(line)
         print(path, len(rel.trails), "trails")
     # One index per country (the app loads only the ones it needs) + countries.json listing them.
     # Countries already in OUT_DIR from earlier runs are kept, so countries can be added one at a time.
